@@ -5,17 +5,22 @@ import numpy as np
 rg = np.random.default_rng()
 
 def generate_data(n_features, n_values):
-
+    
     features = rg.random((n_features, n_values))
     weights = rg.random((1, n_values))[0]
     targets = np.random.choice([0,1], n_features)
-    data = pd.DataFrame(features, columns=["x0", "x1", "x2"])
+    columns = []
+    
+    for column in range(n_values):
+        columns.append('x'+str(column))
+    
+    data = pd.DataFrame(features, columns=columns)
     data["targets"] = targets
     
     return data, weights
 
 def get_weighted_sum(feature, weights, bias):
-    return np.dot(feature, weights) + 
+    return np.dot(feature, weights) + bias
 
 def sigmoid(w_sum):
     return 1/(1+np.exp(-w_sum))
